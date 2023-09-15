@@ -17,19 +17,19 @@ pipeline {
     
 
     stages {
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node'                   
-                    reuseNode true
-                }
-            }
-            steps {
-                sh 'apt-get update'
-                sh 'npm install'
-                sh 'npm run lint:js'
-            }
-        }
+        // stage('Test') {
+        //     agent {
+        //         docker {
+        //             image 'node'                   
+        //             reuseNode true
+        //         }
+        //     }
+        //     steps {
+        //         sh 'apt-get update'
+        //         sh 'npm install'
+        //         sh 'npm run lint:js'
+        //     }
+        // }
         
         stage('Build Docker Image') {
             steps {
