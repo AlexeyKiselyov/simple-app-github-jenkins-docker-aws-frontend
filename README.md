@@ -2,6 +2,8 @@
 
 In the project directory, you can run:
 
+### `docker build . --build-arg REACT_APP_API_URL=http://localhost:4000/api/ -t musicman123/music_man_docker_repo:simple-app-front`
+
 ### `npm start`
 
 Runs the app in the development mode.\

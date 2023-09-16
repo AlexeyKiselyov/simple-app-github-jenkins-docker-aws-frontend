@@ -12,7 +12,7 @@ pipeline {
         
         DOCKERHUB_PASS = credentials('dockerhub_pass')
 
-        REACT_APP_API_URL = 'http://simple-app-back-nginx-container:4000/api/'
+        REACT_APP_API_URL = 'http://localhost:4000/api/'
     }
     
 
@@ -34,7 +34,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+                    sh "docker build . --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
