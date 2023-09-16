@@ -12,7 +12,7 @@ pipeline {
         
         DOCKERHUB_PASS = credentials('dockerhub_pass')
 
-        REACT_APP_API_URL = 'simple-app-back-nginx-container:4000/api/'
+        REACT_APP_API_URL = 'http://simple-app-back-nginx-container:4000/api/'
     }
     
 
@@ -52,16 +52,9 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 sshagent(['SSH-AWS-EC2-Access']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker version'"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d'"
                 }                
             }
-        }       
-        // stage('Deploy to EC2') {
-        //     steps {
-        //         sshagent(['SSH-AWS-EC2-Access']) {
-        //             sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d'"
-        //         }                
-        //     }
-        // }       
+        }                     
     } 
 }
