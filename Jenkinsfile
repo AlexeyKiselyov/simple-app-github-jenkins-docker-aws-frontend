@@ -12,7 +12,7 @@ pipeline {
         
         DOCKERHUB_PASS = credentials('dockerhub_pass')
 
-        REACT_APP_API_URL = 'http://localhost:4000/api/'
+        REACT_APP_API_URL = 'simple-app-back-nginx-container:4000/api/'
     }
     
 
