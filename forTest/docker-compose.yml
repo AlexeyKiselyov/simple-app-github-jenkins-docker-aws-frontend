@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  test-jenkins-job:
+    build:
+      context: ../
+      dockerfile: Dockerfile.forTest
+    container_name: test-container
+
+x-compose-project:
+  project_name: test-jenkins-compose
