@@ -20,8 +20,7 @@ pipeline {
         stage('Test') {
             agent {
                 dockerContainer {
-                    image 'node'                   
-                    reuseNode true
+                    image 'node'           
                 }
             }
             steps {
