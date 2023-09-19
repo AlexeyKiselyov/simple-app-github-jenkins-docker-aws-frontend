@@ -21,8 +21,7 @@ pipeline {
             steps {
                 script {    
                     sh 'npm install && npm run lint:js'
-                    // sh 'npm install && npm run lint:js'
-                    // sh 'ls -la'
+                    sh 'rm -R node_modules'
                 }                  
             }
         }
