@@ -2,10 +2,6 @@
 
 In the project directory, you can run:
 
-### `docker build . --build-arg REACT_APP_API_URL=http://localhost:4000/api/ -t musicman123/music_man_docker_repo:simple-app-front`
-
-### `docker build . --build-arg REACT_APP_API_URL=http://app-back:4000/api/ -t musicman123/music_man_docker_repo:simple-app-front`
-
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -88,5 +84,3 @@ This section has moved here:
 
 This section has moved here:
 [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### some new changes
