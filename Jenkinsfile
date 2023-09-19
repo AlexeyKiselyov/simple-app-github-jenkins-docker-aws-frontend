@@ -21,7 +21,8 @@ pipeline {
             steps {
                 script {    
                     sh 'npm install && npm run lint:js'
-                    sh 'ls -la'
+                    // sh 'npm install && npm run lint:js'
+                    // sh 'ls -la'
                 }                  
             }
         }
@@ -29,7 +30,7 @@ pipeline {
         stage('some build stage') {
             steps {
                 script {
-                    docker version
+                    sh 'docker version'
                 }
             }
         }
