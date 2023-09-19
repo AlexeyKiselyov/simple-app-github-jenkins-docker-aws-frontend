@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {    
-                    sh 'docker run --name test-container -v {PWD}:/app -w /app node'                
+                    sh 'docker run --name test-container -v ${PWD}:/app -w /app node'                
                     sh 'docker exec -it test-container sh -c "npm install && npm run lint:js"'
                     sh 'docker stop test-container'                    
                     sh 'docker rm test-container'                    
