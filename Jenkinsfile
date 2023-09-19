@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Test') {
             agent {
-                docker {
+                dockerContainer {
                     image 'node'                   
                     reuseNode true
                 }
