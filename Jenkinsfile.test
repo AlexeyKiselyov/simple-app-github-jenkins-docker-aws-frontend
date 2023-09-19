@@ -26,43 +26,35 @@ pipeline {
             steps {                  
                 sh 'npm install && npm run lint:js'
             }
-        }       
+        } 
         
-        stage('Some other steps') {
+        stage('Build Docker Image') {
             agent any
             steps {
                 script {
-                    sh 'docker version'
+                    sh "docker build . --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
-        // stage('Build Docker Image') {
-        //     agent any
-        //     steps {
-        //         script {
-        //             sh "docker build . --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-        //         }
-        //     }
-        // }
 
-        // stage('Push Docker Image to Docker Hub') {
-        //     agent any
-        //     steps {
-        //         script {
-        //             sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS}"
+        stage('Push Docker Image to Docker Hub') {
+            agent any
+            steps {
+                script {
+                    sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS}"
 
-        //             sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-        //         }
-        //     }
-        // }
+                    sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                }
+            }
+        }
 
-        // stage('Deploy to EC2') {
-        //     agent any
-        //     steps {
-        //         sshagent(['SSH-AWS-EC2-Access']) {
-        //             sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d'"
-        //         }                
-        //     }
-        // }                     
+        stage('Deploy to EC2') {
+            agent any
+            steps {
+                sshagent(['SSH-AWS-EC2-Access']) {
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d'"
+                }                
+            }
+        }                     
     } 
 }
