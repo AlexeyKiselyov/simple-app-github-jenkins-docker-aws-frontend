@@ -18,15 +18,20 @@ pipeline {
 
     stages {
         stage('Test') {
-            agent {
-                dockerContainer {
-                    image 'node'           
-                }
-            }
             steps {
-                sh 'apt-get update'
-                sh 'npm install'
-                sh 'npm run lint:js'
+                script {
+                    def nodeContainer = docker.image('node:14').run()
+                    try {
+                        nodeContainer.inside {
+                            sh 'apt-get update'
+                            sh 'npm install'
+                            sh 'npm run lint:js'
+                        }
+                    } finally {
+                        nodeContainer.stop()
+                        nodeContainer.remove(force: true)
+                    }
+                }
             }
         }
 
