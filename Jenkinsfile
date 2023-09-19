@@ -19,19 +19,10 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                script {
-                    def nodeContainer = docker.image('node:14').run('-v $PWD:/app -w /app')
-                    try {
-                        nodeContainer.inside {
-                            sh 'apt-get update'
-                            sh 'npm install'
-                            sh 'npm run lint:js'
-                        }
-                    } finally {
-                        nodeContainer.stop()
-                        nodeContainer.remove(force: true)
-                    }
-                }
+                script {                    
+                    sh 'npm install && npm run lint:js'
+                    sh 'ls -la'
+                }                  
             }
         }
 
