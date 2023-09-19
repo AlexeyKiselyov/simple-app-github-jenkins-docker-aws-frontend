@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def nodeContainer = docker.image('node:14').run()
+                    def nodeContainer = docker.image('node:14').run('-v $PWD:/app -w /app')
                     try {
                         nodeContainer.inside {
                             sh 'apt-get update'
