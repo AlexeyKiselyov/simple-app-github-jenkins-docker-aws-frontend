@@ -13,8 +13,7 @@ pipeline {
         DOCKERHUB_PASS = credentials('dockerhub_pass')
 
         REACT_APP_API_URL = 'http://3.120.153.62:4000/api/'
-    }
-    
+    }    
 
     stages {
         stage('Test') {
@@ -42,7 +41,6 @@ pipeline {
             steps {
                 script {
                     sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS}"
-
                     sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                 }
             }
@@ -52,7 +50,7 @@ pipeline {
             agent any
             steps {
                 sshagent(['SSH-AWS-EC2-Access']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d'"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_SERVER} 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASS} && docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} && cd /home/ubuntu/simple-app && docker-compose up -d || true'"
                 }                
             }
         }                     
